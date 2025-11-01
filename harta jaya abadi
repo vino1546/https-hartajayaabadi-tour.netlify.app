@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Harta Jaya Abadi — Tour & Travel</title>
+  <meta name="description" content="Harta Jaya Abadi — Tour & Travel di Bali. Armada Innova Reborn, Hiace, Mini Bus. Paket wisata, rental mobil, dan pemesanan via WhatsApp.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#071225;         /* very dark blue */
+      --card:#0f2333;       /* dark card */
+      --muted:#94a3b8;
+      --accent:#f6a623;     /* warm gold/orange */
+      --accent-2:#00b4d8;   /* cyan highlight */
+      --glass: rgba(255,255,255,0.04);
+      --radius:12px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background: linear-gradient(180deg,var(--bg) 0%, #061025 100%);
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      overflow-x:hidden;
+    }
+
+    /* NAVBAR */
+    .nav {
+      position:fixed; top:0; left:0; right:0;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px 22px; gap:12px; z-index:999;
+      background:linear-gradient(180deg, rgba(6,17,33,0.28), rgba(6,17,33,0.18));
+      border-bottom:1px solid rgba(255,255,255,0.02);
+      backdrop-filter: blur(6px);
+      transition: all .35s ease;
+    }
+    .nav.scrolled { background: linear-gradient(180deg,#041426,#071225); box-shadow:0 8px 30px rgba(2,6,23,0.6); }
+    .brand {display:flex; gap:12px; align-items:center}
+    .brand img {width:42px; height:42px; object-fit:cover; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.6)}
+    .brand .name {font-weight:700; letter-spacing:0.6px; color:#fff}
+    .nav-links {display:flex; gap:12px; align-items:center}
+    .nav-links a {color:var(--muted); text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px;}
+    .nav-links a:hover {color:#fff; background:rgba(255,255,255,0.03)}
+    .btn-cta {background:linear-gradient(90deg,var(--accent), #ff8a3d); color:#071225; padding:9px 14px; border-radius:999px; font-weight:700; text-decoration:none; box-shadow:0 8px 30px rgba(246,166,35,0.12)}
+
+    /* HERO */
+    .hero {
+      margin-top:72px;
+      min-height:72vh;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:center;
+      padding:48px 6vw;
+    }
+    .hero-left {
+      padding:28px; border-radius:14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow: 0 20px 60px rgba(2,6,23,0.6);
+      backdrop-filter: blur(4px);
+      animation: fadeInUp .8s ease both;
+    }
+    .hero-left h1 {font-size:2.2rem; margin:0 0 8px; color:#fff}
+    .hero-left p {color:var(--muted); margin-bottom:18px}
+    .pill {display:inline-flex; gap:8px; align-items:center; padding:8px 12px; border-radius:999px; background:var(--glass); color:var(--muted); font-weight:600; margin-right:8px}
+    .hero-actions {margin-top:14px; display:flex; gap:12px; flex-wrap:wrap}
+
+    .hero-right {display:grid; gap:12px}
+    .hero-big {
+      height:320px; border-radius:14px; overflow:hidden;
+      position:relative; box-shadow:0 20px 50px rgba(2,6,23,0.6);
+      background:#081226;
+    }
+    .hero-big img {width:100%; height:100%; object-fit:cover; display:block; filter:brightness(.6) contrast(.98) saturate(.95)}
+    .hero-small-row {display:flex; gap:12px}
+    .hero-small {height:120px; flex:1; border-radius:12px; overflow:hidden}
+    .hero-small img {width:100%; height:100%; object-fit:cover; filter:brightness(.85)}
+
+    /* MAIN */
+    .container {max-width:1100px; margin:40px auto; padding:0 20px}
+    .section {margin-bottom:34px; opacity:0; transform:translateY(24px); transition:all .7s cubic-bezier(.2,.9,.2,1)}
+    .section.visible {opacity:1; transform:none}
+    .section-head {display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px}
+    h2 {margin:0; color:#ffffff}
+    .muted {color:var(--muted)}
+
+    /* WHY */
+    .why {background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border-radius:12px; display:flex; gap:18px; align-items:center; box-shadow:0 12px 30px rgba(2,6,23,0.6)}
+    .why .left {flex:1}
+    .why ul {list-style:none; padding-left:0; margin-top:8px}
+    .why li {padding:8px 0; display:flex; gap:10px; align-items:center; color:var(--muted); font-weight:600}
+
+    /* ARMADA CARDS */
+    .grid {display:grid; gap:18px; grid-template-columns: repeat(auto-fit,minmax(240px,1fr))}
+    .card {background:var(--card); border-radius:12px; overflow:hidden; box-shadow:0 10px 40px rgba(2,6,23,0.6); transition:transform .28s ease}
+    .card:hover {transform:translateY(-8px)}
+    .card img {width:100%; height:180px; object-fit:cover; display:block}
+    .card .body {padding:14px}
+    .card h3 {margin:0 0 6px}
+    .spec {color:var(--muted); font-weight:600; font-size:0.95rem}
+
+    /* PRICELIST */
+    .price-grid {display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:14px}
+    .price {background:linear-gradient(180deg,#081726,#061025); padding:14px; border-radius:12px; text-align:center; box-shadow:0 8px 30px rgba(2,6,23,0.5)}
+    .price .cost {font-weight:800; color:var(--accent); font-size:1.25rem}
+
+    /* GALLERY */
+    .gallery {display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px}
+    .gallery img {width:100%; height:110px; object-fit:cover; border-radius:8px; cursor:zoom-in; transition:transform .25s ease}
+    .gallery img:hover {transform:scale(1.03)}
+
+    /* CONTACT */
+    .contact {display:flex; gap:18px; flex-wrap:wrap; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border-radius:12px}
+    .contact .left {flex:1}
+    .contact .right {min-width:260px; background:linear-gradient(90deg,#0b3147,#082233); padding:14px; border-radius:12px; color:#fff}
+    .wh {display:inline-flex; gap:10px; align-items:center; background:#25D366; color:#071225; padding:9px 12px; border-radius:999px; text-decoration:none; font-weight:800}
+
+    /* MAP */
+    .map {border-radius:12px; overflow:hidden; margin-top:12px; box-shadow:0 12px 40px rgba(2,6,23,0.6)}
+    .map iframe {width:100%; height:260px; border:0; display:block}
+
+    /* FOOTER */
+    footer {padding:20px; text-align:center; color:var(--muted); margin-top:30px}
+
+    /* small devices */
+    @media(max-width:980px){
+      .hero {grid-template-columns:1fr; padding:32px 4vw}
+      .hero-right .hero-big {height:220px}
+    }
+    @media(max-width:520px){
+      .nav-links{display:none}
+      .hero-left h1 {font-size:1.4rem}
+      .hero-left p {font-size:0.95rem}
+      .hero-big {height:180px}
+      .gallery img {height:90px}
+    }
+
+    /* animations */
+    @keyframes fadeInUp {from{opacity:0; transform:translateY(18px)} to{opacity:1; transform:none}}
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="nav" id="navbar">
+    <div class="brand">
+      <img src="images/WhatsApp Image 2025-10-25 at 18.55.15_81f519e7.jpg" alt="logo">
+      <div>
+        <div class="name">Harta Jaya Abadi</div>
+        <div class="muted" style="font-size:12px">Tour & Travel • Bali</div>
+      </div>
+    </div>
+
+    <nav class="nav-links" aria-label="Main Navigation">
+      <a href="#about">Tentang</a>
+      <a href="#armada">Armada</a>
+      <a href="#paket">Paket</a>
+      <a href="#harga">Harga</a>
+      <a href="#contact">Kontak</a>
+      <a class="btn-cta" href="https://wa.me/6287851120292?text=Halo%20Harta%20Jaya%20Abadi%2C%20saya%20ingin%20pesan.">Book Now</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <main>
+    <section class="hero" aria-label="Hero">
+      <div class="hero-left">
+        <h1>Harta Jaya Abadi — Travel Profesional di Bali</h1>
+        <p class="muted">Armada terawat, sopir berpengalaman, paket wisata yang fleksibel — solusi transportasi & tour untuk liburan bisnis maupun keluarga.</p>
+
+        <div>
+          <span class="pill"><i class="fa-solid fa-check"></i> Terpercaya</span>
+          <span class="pill"><i class="fa-solid fa-car-side"></i> Innova • Hiace • Mini Bus</span>
+          <span class="pill"><i class="fa-solid fa-dollar-sign"></i> Harga Transparan</span>
+        </div>
+
+        <div class="hero-actions">
+          <a class="btn-cta" href="https://wa.me/6287851120292?text=Halo%20Harta%20Jaya%20Abadi%2C%20saya%20ingin%20info%20paket">Pesan Sekarang</a>
+          <a style="padding:9px 12px; border-radius:10px; color:var(--muted); text-decoration:none; background:transparent; border:1px solid rgba(255,255,255,0.03)" href="#paket">Lihat Paket</a>
+        </div>
+      </div>
+
+      
+
+        <div class="hero-small-row">
+          <div class="hero-small card" style="position: relative; bottom: 60px;" ><img src="{C454BC67-0AD1-41FE-A106-DC3C6BD16C85}.png" alt="Armada"></div>
+
+          <div class="hero-small card" style="position: relative;right: 215px; top: 80px;"><img src="{E94CBC13-1FA6-4942-AC20-0A4D0C85B10F}.png" alt="Tour Poster"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+
+      <!-- ABOUT -->
+      <section id="about" class="section">
+        <div class="section-head">
+          <h2>Tentang Harta Jaya Abadi</h2>
+          <div class="muted">Pelayanan profesional untuk wisata & transportasi di Bali</div>
+        </div>
+        <p class="muted">Harta Jaya Abadi hadir untuk menyediakan layanan tour & travel yang profesional, aman, dan nyaman. Kami melayani paket wisata, rental mobil dengan sopir, serta transportasi rombongan. Armada kami rutin servis dan sopir sudah terlatih dalam layanan tamu.</p>
+      </section>
+
+      <!-- WHY -->
+      <section class="section">
+        <div class="why">
+          <div class="left">
+            <h3 style="margin:0">Mengapa Memilih Kami?</h3>
+            <ul>
+              <li><i class="fa-solid fa-user-check" style="color:var(--accent)"></i> Sopir profesional & berlisensi</li>
+              <li><i class="fa-solid fa-shield-halved" style="color:var(--accent)"></i> Asuransi & keamanan perjalanan</li>
+              <li><i class="fa-solid fa-car" style="color:var(--accent)"></i> Armada terawat: Innova Reborn, Hiace, Mini Bus</li>
+              <li><i class="fa-solid fa-clock" style="color:var(--accent)"></i> Respon cepat & fleksibilitas jadwal</li>
+              <li><i class="fa-solid fa-money-bill" style="color:var(--accent)"></i> Harga transparan tanpa biaya tersembunyi</li>
+            </ul>
+          </div>
+          <div style="width:300px; text-align:center">
+            <div style="margin-top:10px; font-weight:700; color:var(--accent)">Layanan Profesional • Fast Response</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ARMADA -->
+      <section id="armada" class="section">
+        <div class="section-head">
+          <h2>Armada Kami</h2>
+          <div class="muted">Kenyamanan & keselamatan prioritas utama</div>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <img src="New-Innova-Attitude-Black-removebg-preview.png" alt="Innova Reborn">
+            <div class="body">
+              <h3>Innova Reborn</h3>
+              <div class="spec">Kapasitas 6 orang • AC • Bagasi aman • Cocok keluarga</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="3fbc6eb7-af18-4884-8d4e-21d4b87c805a_toyota-hiace-14-seats-mini-bus-large-removebg-preview.png" alt="Mini Bus">
+            <div class="body">
+              <h3>Mini Bus</h3>
+              <div class="spec">Kapasitas 10–12 orang • Cocok kelompok kecil</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="HIACE-PREMIO-WHITE (1).webp" alt="Hiace">
+            <div class="body">
+              <h3>Hiace</h3>
+              <div class="spec">Kapasitas 14+ orang • Luas & nyaman untuk rombongan</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAKET -->
+      <section id="paket" class="section">
+        <div class="section-head">
+          <h2>Paket Tour Unggulan</h2>
+          <div class="muted">Paket yang paling banyak dipesan wisatawan</div>
+        </div>
+
+        <div style="display:grid; gap:12px; grid-template-columns: repeat(auto-fit,minmax(260px,1fr))">
+          <div class="card">
+            <img src="{37FFD0FA-569D-4EE8-A9F3-E1B489BA5AE1}.png" alt="Tour Bali">
+            <div class="body">
+              <h3>Tour Bali — 3 Hari 2 Malam</h3>
+              <p class="muted">Rafting, Tirta Gangga, Sunset, Pantai, & opsi Nusa Penida</p>
+              <div style="margin-top:10px" class="price"><strong style="color:var(--accent)">Rp 2.715.000 / pax (promo)</strong></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <img src="{17D4969E-9333-4249-B1A9-45B9D9B08239}.png" alt="Nusa Penida">
+            <div class="body">
+              <h3>Tour Nusa Penida — 1 Hari</h3>
+              <p class="muted">Kelingking • Angel Billabong • Crystal Bay • Termasuk boat PP</p>
+              <div style="margin-top:10px" class="price"><strong style="color:var(--accent)">Rp 750.000 / pax</strong></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- HARGA -->
+      <section id="harga" class="section">
+        <div class="section-head">
+          <h2>Daftar Harga & Rental</h2>
+          <div class="muted">Harga transparan — konfirmasi untuk update & ketersediaan</div>
+        </div>
+
+        <div class="price-grid">
+          <div class="price">
+            <div class="muted">Rental Mobil 12 Jam</div>
+            <div class="cost">Rp 950.000</div>
+            <div class="muted" style="margin-top:8px">Termasuk BBM & Sopir</div>
+          </div>
+          <div class="price">
+            <div class="muted">Tour Bali (3D2N)</div>
+            <div class="cost">Rp 2.715.000 / pax</div>
+            <div class="muted" style="margin-top:8px">Termasuk: transport, tiket objek (terpilih), 2 malam hotel</div>
+          </div>
+          <div class="price">
+            <div class="muted">Tour Nusa Penida (1D)</div>
+            <div class="cost">Rp 750.000 / pax</div>
+            <div class="muted" style="margin-top:8px">Termasuk boat PP & lunch</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GALLERY -->
+      <section class="section">
+        <div class="section-head">
+          <h2>Galeri</h2>
+          <div class="muted">Foto promosi & armada</div>
+        </div>
+        <div class="gallery">
+          <img src="{17D4969E-9333-4249-B1A9-45B9D9B08239}.png">
+          <img src="{37FFD0FA-569D-4EE8-A9F3-E1B489BA5AE1}.png">
+          <img src="{294F04D8-0F48-44E3-9C8C-E7EA51D8B212}.png">
+          <img src="{4340E5B3-C560-4174-833B-E4D9535476C2}.png">
+          <img src="{C454BC67-0AD1-41FE-A106-DC3C6BD16C85}.png">
+          <img src="{E94CBC13-1FA6-4942-AC20-0A4D0C85B10F}.png">
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="section">
+        <div class="section-head">
+          <h2>Hubungi & Booking</h2>
+          <div class="muted">Pesan cepat via WhatsApp atau email</div>
+        </div>
+
+        <div class="contact">
+          <div class="left">
+            <strong>Alamat</strong>
+            <div class="muted">Jl. Kebo Iwa No.00, Bongan Puseh, Tabanan, Bali</div>
+
+            <div style="margin-top:12px">
+              <strong>Kontak</strong>
+              <div class="muted">Komang: <a href="https://wa.me/6287851120292" target="_blank" style="color:var(--accent)">0878-5112-0292</a></div>
+              <div class="muted">Bli Pur: <a href="https://wa.me/6281937661188" target="_blank" style="color:var(--accent)">0819-3766-1188</a></div>
+            </div>
+
+            <div style="margin-top:12px">
+              <strong>Email</strong>
+              <div class="muted"><a href="mailto:hartajayaabadi.group@gmail.com" style="color:var(--accent)">hartajayaabadi.group@gmail.com</a></div>
+            </div>
+
+            <div class="map">
+              <iframe loading="lazy" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.6911437205923!2d115.1275!3d-8.5408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd22fb1f07e5c75%3A0x30449e9c9d3b9b0!2sTabanan%2C%20Bali!5e0!3m2!1sen!2sid!4v1687012345678"></iframe>
+            </div>
+          </div>
+
+          <div class="right">
+            <h3 style="margin-top:0;color:var(--accent)">Booking Cepat</h3>
+            <p class="muted">Klik tombol di bawah untuk mengirim pesan WhatsApp langsung ke Tim kami.</p>
+            <a class="wh" href="https://wa.me/6287851120292?text=Halo%20Harta%20Jaya%20Abadi%2C%20saya%20ingin%20memesan%20paket" target="_blank"><i class="fa-brands fa-whatsapp"></i> Komang (WhatsApp)</a>
+            <a class="wh" href="https://wa.me/6281937661188?text=Halo%20Harta%20Jaya%20Abadi%2C%20saya%20ingin%20rental%20mobil" style="margin-top:8px; display:inline-flex" target="_blank"><i class="fa-brands fa-whatsapp"></i> Bli Pur (WhatsApp)</a>
+
+            <div style="margin-top:14px; font-size:13px; color:var(--muted)">
+              <strong>Catatan:</strong> Harga bisa berubah. Silakan konfirmasi ketersediaan armada saat pemesanan.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        © <span id="year"></span> Harta Jaya Abadi • All rights reserved • <a href="mailto:hartajayaabadi.group@gmail.com" style="color:var(--accent)">hartajayaabadi.group@gmail.com</a>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    // set year
+    document.getElementById('year').innerText = new Date().getFullYear();
+
+    // navbar color change on scroll
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if(window.scrollY > 24) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    });
+
+    // reveal sections
+    const sections = document.querySelectorAll('.section');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if(e.isIntersecting) e.target.classList.add('visible');
+      });
+    }, {threshold: 0.12});
+    sections.forEach(s => io.observe(s));
+
+    // image zoom overlay
+    document.querySelectorAll('.gallery img, .card img, .hero-big img, .hero-small img').forEach(img=>{
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', () => {
+        const overlay = document.createElement('div');
+        overlay.style.position='fixed';
+        overlay.style.inset=0;
+        overlay.style.background='rgba(1,6,16,0.88)';
+        overlay.style.display='flex';
+        overlay.style.alignItems='center';
+        overlay.style.justifyContent='center';
+        overlay.style.zIndex=9999;
+        overlay.addEventListener('click', ()=> overlay.remove());
+
+        const big = document.createElement('img');
+        big.src = img.src;
+        big.style.maxWidth='92%';
+        big.style.maxHeight='92%';
+        big.style.borderRadius='10px';
+        big.style.boxShadow='0 20px 50px rgba(0,0,0,0.6)';
+        overlay.appendChild(big);
+        document.body.appendChild(overlay);
+      });
+    });
+
+    // smooth scroll for nav anchors
+    document.querySelectorAll('.nav-links a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = a.getAttribute('href');
+        const el = document.querySelector(id);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+  </script>
+</body>
+</html>
